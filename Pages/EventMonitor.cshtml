@@ -1,0 +1,93 @@
+﻿@page
+@model DataCloudDemo.Pages.EventMonitorModel
+@{
+    ViewData["Title"] = "Event Monitor";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="margin-top:2%;">
+            @if (Model.lRows != null && Model.lRows.Count > 0)
+            {
+                <table id="dcevents" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" aria-label="Example table of Opportunities with striped rows">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Contact Id">Contact Id</div>
+                            </th>
+                            @*<th class="" scope="col">
+                                    <div class="slds-truncate" title="First Name">First Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Last Name">Last Name</div>
+                                </th>*@
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Event Type">Event Type</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Clicked On">Button Clicked On</div>
+                            </th>
+                            @*<th class="" scope="col">
+                                    <div class="slds-truncate" title="Stage">Data Action Initiated On</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Stage">Platform Event Invoked On</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Stage">Function Invoked On</div>
+                                </th>*@
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Updated On">Contact Updated On</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lrows in Model.lRows)
+                        {
+                            <tr class="slds-hint-parent">
+                                <td data-label="firstname">
+                                    <div class="slds-truncate" title="Contact Id">@lrows.Contactid</div>
+                                </td>
+                                @*<td data-label="firstname">
+                                        <div class="slds-truncate" title="firstname">@lrows.Firstname</div>
+                                    </td>
+                                    <td data-label="lastname">
+                                        <div class="slds-truncate" title="lastname">@lrows.Lastname</div>
+                                    </td>*@
+                                <td data-label="eventtype">
+                                    <div class="slds-truncate" title="Event Type">@(lrows.Eventtype==null ? "":lrows.Eventtype.ToLower())</div>
+                                </td>
+                                <td data-label="createddate">
+                                    <div class="slds-truncate" title="Clicked On" data-date="@(lrows.Createdate.HasValue ? lrows.Createdate.Value : "")">@(lrows.Createdate.HasValue ? lrows.Createdate.Value : "")</div>
+                                </td>
+                                @*<td data-label="dataaction">
+                                        <div class="slds-truncate" title="data action initiated on">@(lrows.Dataactioninitiatedon.HasValue ? lrows.Dataactioninitiatedon.Value : "")</div>
+                                    </td>
+                                    <td data-label="platformevent">
+                                        <div class="slds-truncate" title="platform event invoked on">@(lrows.Platformeventinvokedon.HasValue ? lrows.Platformeventinvokedon.Value : "")</div>
+                                    </td>
+                                    <td data-label="functioninvoked">
+                                        <div class="slds-truncate" title="function invoked on">@(lrows.Functioninvokedon.HasValue ? lrows.Functioninvokedon.Value : "")</div>
+                                    </td>*@
+                                <td data-label="contactupdated">
+                                    <div class="slds-truncate" title="Updated On" data-date="@(lrows.Contactupdatedon.HasValue ? lrows.Contactupdatedon.Value : "")">@(lrows.Contactupdatedon.HasValue ? lrows.Contactupdatedon.Value : "")</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            if ($("#timezones") && $("#timezones").closest("div.header-dropdown")) {
+                initEventMonitorDataTable($("#timezones").closest("div.header-dropdown").find("a[id='selectedTZ']").text());
+            }
+        });
+    </script>
+}
