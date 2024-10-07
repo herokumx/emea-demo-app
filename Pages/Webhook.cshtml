@@ -1,0 +1,81 @@
+﻿@page
+@model DataCloudDemo.Pages.WebhookModel
+@{
+    ViewData["Title"] = "Webhook Monitor";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="margin-top:2%;">
+            @if (Model.lRows != null && Model.lRows.Count > 0)
+            {
+                <table id="webhook" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped" aria-label="Example table of Opportunities with striped rows">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Contact Id">Contact Id</div>
+                            </th>
+                            @*<th class="" scope="col">
+                                    <div class="slds-truncate" title="First Name">First Name</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Last Name">Last Name</div>
+                                </th>*@
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Event Type">Event Type</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Clicked On">Button Clicked On</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Data action Initiated On">Data action Initiated On</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Created On">Created On</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lrows in Model.lRows)
+                        {
+                            <tr class="slds-hint-parent">
+                                <td data-label="firstname">
+                                    <div class="slds-truncate" title="Contact Id">@lrows.Contactid</div>
+                                </td>
+                                @*<td data-label="firstname">
+                                        <div class="slds-truncate" title="firstname">@lrows.Firstname</div>
+                                    </td>
+                                    <td data-label="lastname">
+                                        <div class="slds-truncate" title="lastname">@lrows.Lastname</div>
+                                    </td>*@
+                                <td data-label="eventtype">
+                                    <div class="slds-truncate" title="Event Type">@(lrows.Eventtype==null ? "":lrows.Eventtype.ToLower())</div>
+                                </td>
+                                <td data-label="platformevent">
+                                    <div class="slds-truncate" title="Clicked On" data-date="@(lrows.Platformeventinvokedon.HasValue ? lrows.Platformeventinvokedon.Value : "")">@(lrows.Platformeventinvokedon.HasValue ? lrows.Platformeventinvokedon.Value : "")</div>
+                                </td>
+                                <td data-label="dataaction">
+                                    <div class="slds-truncate" title="Data Action Initiated On" data-date="@(lrows.Dataactioninitiatedon.HasValue ? lrows.Dataactioninitiatedon.Value : "")">@(lrows.Dataactioninitiatedon.HasValue ? lrows.Dataactioninitiatedon.Value : "")</div>
+                                </td>
+                                <td data-label="createddate">
+                                    <div class="slds-truncate" title="Created On" data-date="@(lrows.Createdate.HasValue ? lrows.Createdate.Value : "")">@(lrows.Createdate.HasValue ? lrows.Createdate.Value : "")</div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            if ($("#timezones") && $("#timezones").closest("div.header-dropdown")) {
+                initEventMonitorDataTable($("#timezones").closest("div.header-dropdown").find("a[id='selectedTZ']").text());
+            }
+        });
+    </script>
+}

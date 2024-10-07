@@ -1,2 +1,11 @@
-# emea-demo-app
-Used to demo Heroku &amp; Data Cloud
+# ACME Demo Site
+
+## Local Development
+
+```bash
+# Pull config vars
+heroku config -s -a ai-heroku-dc > .env
+
+# Run the app
+dotnet run
+```

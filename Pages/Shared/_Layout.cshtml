@@ -1,0 +1,751 @@
+﻿<!DOCTYPE html>
+<html lang="en" style="">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>@ViewData["Title"] - Salesforce Heroku Data Cloud eCommerce</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/assets/images/icons/favicon.png" />
+    <script type="text/javascript">
+        WebFontConfig = {
+            google: { families: ['Open+Sans:300,400,600,700,800', 'Poppins:200,300,400,500,600,700,800', 'Oswald:300,400,500,600,700,800'] }
+        };
+        (function (d) {
+            var wf = d.createElement('script'), s = d.scripts[0];
+            wf.src = 'assets/js/webfont.js';
+            wf.async = true;
+            s.parentNode.insertBefore(wf, s);
+        })(document);
+    </script>
+    @*<link href="~/assets/css/bootstrap.min.css" rel="stylesheet" />*@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Main CSS File -->
+    @*<link rel="stylesheet" href="~/assets/styles/salesforce-lightning-design-system.min.css" />*@
+    <link href="~/assets/css/demo21.css" rel="stylesheet" />
+    <link href="~/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/DataCloudDemo.styles.css" asp-append-version="true" />*@
+    <link href="~/lib/datatables/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <script src="~/js/datacloudsdk.js"></script>
+    <style type="text/css">
+        .styles-module__compose___eoG-1 form {
+            margin-bottom:0px !important;
+        }
+		
+
+        #chatWidgetRoot .chat, #chatWidgetRoot .atlisButton {
+            position: fixed !important;
+            z-index: 9999 !important;
+            background: none;
+        }
+
+            #chatWidgetRoot .atlisButton .imageContainer {
+                width: 50px;
+            }
+
+        #chatWidgetRoot .heading h1 {
+            color: #333;
+            font-size: 2em;
+            font-weight: 700;
+            margin: unset;
+        }
+    </style>
+</head>
+<body>
+    @Html.AntiForgeryToken()
+    <div class="page-wrapper">
+        <header class="app-header box-shadow">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="header-dropdown">
+                            <div class="header-menu" id="countries" name="countries">
+                                <ul>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+                        <span class="gap mx-3">|</span>
+                        <div class="header-dropdown" style="padding-right:10px;">
+                            <a href="javascript:void(0)" id="selectedTZ"></a>
+                            <div class="header-menu" id="timezones" name="timezones">
+                                <ul>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+                    </div>
+
+                    <div class="header-right ml-0 ml-lg-auto">
+                        <p class="top-message mb-0 text-uppercase">
+                            &nbsp;&nbsp;&nbsp;
+                        </p>
+                        <div class="header-dropdown dropdown-expanded d-none d-lg-block">
+                            <a href="javascript:void(0)">Links</a>
+                            <div class="header-menu" id="topmenus">
+                                <ul class="mb-0 d-none d-lg-flex">
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="eventmonitor">Events</a></li>
+                                    <li><a href="https://webhook.herokudemos.com/webhook-events" target="_blank">Events Viewer</a></li>
+                                    <li><a href="https://admin.atlis.ai/" target="_blank">AI Admin</a></li>
+                                    <li><a href="appsettings">Settings</a></li>
+                                    <li><a href="javascript:void(0)" id="resetall">Reset Demo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+            <div class="header-middle sticky-header" data-sticky-options="{'mobile': true}">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler" type="button">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <a href="index" class="logo">
+                            <img src="assets/images/logo-white.png" alt="Salesforce Data Cloud eCommerce Logo" width="111" height="44">
+                            <img src="assets/images/logo-black.png" alt="Salesforce Data Cloud eCommerce Logo" width="111" height="44"
+                                 class="sticky-logo">
+                        </a>
+                    </div>
+
+                    <div class="header-center">
+                        <div class="header-icon header-search header-search-inline header-search-category w-lg-max text-right mt-0">
+                            <a href="javascript:void(0)" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
+                            <form action="#" method="get">
+                                <div class="header-search-wrapper">
+                                    <input type="search" class="form-control" name="q" id="q"
+                                           placeholder="I'm searching for..." required>
+
+                                    <button class="btn icon-magnifier bg-dark text-white" title="search"
+                                            type="submit"></button>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+                    </div>
+
+                    <div class="header-right ml-0 ml-lg-auto">
+                        <div style="color:#7673C0;">Unified ID:&nbsp;&nbsp;</div> <div>**518024&nbsp;&nbsp;</div>
+                        <div style="color:#7673C0;">Lifetime Spend:&nbsp;&nbsp;</div> <div>$1,241&nbsp;&nbsp;</div>
+                       <div style="color:#7673C0;">Support Tickets:&nbsp;&nbsp;</div> <div>(1)&nbsp;&nbsp;</div> 
+                        <a href="javascript:void(0)" class="header-icon">
+                            <i class="icon-wishlist-2"></i>
+                        </a>
+                        <div class="dropdown cart-dropdown">
+                            <a id="viewcart" href="javascript:void(0)" title="Cart" class="dropdown-toggle cart-toggle" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="minicart-icon"></i>
+                                <span class="cart-count badge-circle">3</span>
+                            </a>
+
+                            <div class="cart-overlay"></div>
+
+                            <div class="dropdown-menu mobile-cart">
+                                <a href="javascript:void(0)" title="Close (Esc)" class="btn-close">×</a>
+
+                                <div class="dropdownmenu-wrapper custom-scrollbar">
+                                    <div class="dropdown-cart-header">Shopping Cart</div>
+                                    <!-- End .dropdown-cart-header -->
+
+                                    <div class="dropdown-cart-products">
+                                        <div class="product">
+                                            <div class="product-details">
+                                                <h4 class="product-title">
+                                                    <a href="product">Homestead Shelter</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    × $524
+                                                </span>
+                                            </div><!-- End .product-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="product" class="product-image">
+                                                    <img src="assets/images/products/product-1.jpg" alt="product"
+                                                         width="80" height="80">
+                                                </a>
+
+                                                <a href="javascript:void(0)" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                            </figure>
+                                        </div><!-- End .product -->
+
+                                        <div class="product">
+                                            <div class="product-details">
+                                                <h4 class="product-title">
+                                                    <a href="product">Berkeley Duffel</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    × $79
+                                                </span>
+                                            </div><!-- End .product-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="product" class="product-image">
+                                                    <img src="assets/images/products/product-2.jpg" alt="product"
+                                                         width="80" height="80">
+                                                </a>
+
+                                                <a href="javascript:void(0)" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                            </figure>
+                                        </div><!-- End .product -->
+
+                                        <div class="product">
+                                            <div class="product-details">
+                                                <h4 class="product-title">
+                                                    <a href="product">Blue Kazoo</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    × $315
+                                                </span>
+                                            </div><!-- End .product-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="product" class="product-image">
+                                                    <img src="assets/images/products/product-3.jpg" alt="product"
+                                                         width="80" height="80">
+                                                </a>
+                                                <a href="javascript:void(0)" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                            </figure>
+                                        </div><!-- End .product -->
+                                    </div><!-- End .cart-product -->
+
+                                    <div class="dropdown-cart-total">
+                                        <span>SUBTOTAL:</span>
+
+                                        <span class="cart-total-price float-right">$199.97</span>
+                                    </div><!-- End .dropdown-cart-total -->
+
+                                    <div class="dropdown-cart-action">
+                                        @*<a href="$('a.cart-toggle:first' ).click()" class="btn btn-gray btn-block view-cart">
+                                                View
+                                                Cart
+                                            </a>*@
+                                        <a id="checkout" class="btn btn-dark btn-block">Checkout</a>
+                                    </div><!-- End .dropdown-cart-total -->
+                                </div><!-- End .dropdownmenu-wrapper -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .dropdown -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-bottom sticky-header" data-sticky-options="{'mobile': false}">
+                <div class="container">
+                    <div class="header-left">
+                        <a href="index" class="logo">
+                            <img src="assets/images/logo-black.png" alt="Porto Logo">
+                        </a>
+                    </div>
+
+                    <div class="header-right pr-0">
+                        <div class="header-icon header-search header-search-popup header-search-category w-lg-max text-right">
+                            <a href="javascript:void(0)" class="search-toggle" role="button"><i class="icon-search-3"></i></a>
+                            <form action="javascript:void(0)" method="get">
+                                <div class="header-search-wrapper">
+                                    <input type="search" class="form-control" name="q" id="q1"
+                                           placeholder="I'm searching for..." required>
+                                    <div class="select-custom">
+                                        <select id="cat1" name="cat">
+                                            <option value="">All Categories</option>
+                                            <option value="4">Fashion</option>
+                                            <option value="12">- Women</option>
+                                            <option value="13">- Men</option>
+                                            <option value="66">- Jewellery</option>
+                                            <option value="67">- Kids Fashion</option>
+                                            <option value="5">Electronics</option>
+                                            <option value="21">- Smart TVs</option>
+                                            <option value="22">- Cameras</option>
+                                            <option value="63">- Games</option>
+                                            <option value="7">Home &amp; Garden</option>
+                                            <option value="11">Motors</option>
+                                            <option value="31">- Cars and Trucks</option>
+                                            <option value="32">- Motorcycles &amp; Powersports</option>
+                                            <option value="33">- Parts &amp; Accessories</option>
+                                            <option value="34">- Boats</option>
+                                            <option value="57">- Auto Tools &amp; Supplies</option>
+                                        </select>
+                                    </div><!-- End .select-custom -->
+                                    <button class="btn icon-search-3 bg-dark text-white p-0" title="search"
+                                            type="submit"></button>
+                                </div><!-- End .header-search-wrapper -->
+                            </form>
+                        </div><!-- End .header-search -->
+
+                        <a href="javascript:void(0)" class="header-icon">
+                            <i class="icon-wishlist-2"></i>
+                        </a>
+
+                        <div class="dropdown cart-dropdown">
+                            <a href="javascript:void(0)" title="Cart" class="dropdown-toggle cart-toggle" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                                <i class="minicart-icon"></i>
+                                <span class="cart-count badge-circle">3</span>
+                            </a>
+
+                            <div class="cart-overlay"></div>
+
+                            <div class="dropdown-menu mobile-cart">
+                                <a href="javascript:void(0)" title="Close (Esc)" class="btn-close">×</a>
+
+                                <div class="dropdownmenu-wrapper custom-scrollbar">
+                                    <div class="dropdown-cart-header">Shopping Cart</div>
+                                    <!-- End .dropdown-cart-header -->
+
+                                    <div class="dropdown-cart-products">
+                                        <div class="product">
+                                            <div class="product-details">
+                                                <h4 class="product-title">
+                                                    <a href="product">Ultrasonic Cleaning Station</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    × $79.99
+                                                </span>
+                                            </div><!-- End .product-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="product" class="product-image">
+                                                    <img src="assets/images/products/product-1.jpg" alt="product"
+                                                         width="80" height="80">
+                                                </a>
+
+                                                <a href="javascript:void(0)" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                            </figure>
+                                        </div><!-- End .product -->
+
+                                        <div class="product">
+                                            <div class="product-details">
+                                                <h4 class="product-title">
+                                                    <a href="/product">Invisalign Sanitizing Case</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    × $49.99
+                                                </span>
+                                            </div><!-- End .product-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="/product" class="product-image">
+                                                    <img src="assets/images/products/product-2.jpg" alt="product"
+                                                         width="80" height="80">
+                                                </a>
+
+                                                <a href="javascript:void(0)" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                            </figure>
+                                        </div><!-- End .product -->
+
+                                        <div class="product">
+                                            <div class="product-details">
+                                                <h4 class="product-title">
+                                                    <a href="product">Invisalign Essential Bundle</a>
+                                                </h4>
+
+                                                <span class="cart-product-info">
+                                                    <span class="cart-product-qty">1</span>
+                                                    × $69.99
+                                                </span>
+                                            </div><!-- End .product-details -->
+
+                                            <figure class="product-image-container">
+                                                <a href="product" class="product-image">
+                                                    <img src="assets/images/products/product-3.jpg" alt="product"
+                                                         width="80" height="80">
+                                                </a>
+                                                <a href="javascript:void(0)" class="btn-remove" title="Remove Product"><span>×</span></a>
+                                            </figure>
+                                        </div><!-- End .product -->
+                                    </div><!-- End .cart-product -->
+
+                                    <div class="dropdown-cart-total">
+                                        <span>SUBTOTAL:</span>
+
+                                        <span class="cart-total-price float-right">$199.97</span>
+                                    </div><!-- End .dropdown-cart-total -->
+
+                                    <div class="dropdown-cart-action">
+                                        @*<a href="javascript:void(0)" class="btn btn-gray btn-block view-cart">
+                                                View
+                                                Cart
+                                            </a>*@
+                                        <a id="checkout" class="btn btn-dark btn-block">Checkout</a>
+                                    </div><!-- End .dropdown-cart-total -->
+                                </div><!-- End .dropdownmenu-wrapper -->
+                            </div><!-- End .dropdown-menu -->
+                        </div><!-- End .dropdown -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- End .header -->
+        <main class="main">
+            @RenderBody()
+            @await Component.InvokeAsync("AppConfigs")
+        </main>
+    </div>
+    @*<footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2023 - DataCloudDemo - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
+        </footer>*@
+    <div id="divMask" class="screenMask">
+        <p style="position: fixed;left:50%;top:50%;">
+            <img src="~/images/small-ajax-loader.gif" alt="Loading..." style="z-index:40000;" />
+        </p>
+    </div>
+
+    @{
+        var useHerokuEvents = Environment.GetEnvironmentVariable("USE_HEROKU_EVENTS");
+        var atlisEventFabricUrl = Environment.GetEnvironmentVariable("ATLIS_EVENT_FABRIC_URL");
+    }
+
+    <!-- Plugins JS File -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @*<script src="~/assets/js/jquery.min.js"></script>*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    @*<script src="~/assets/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/assets/js/plugins.min.js"></script>
+    <script src="~/assets/js/optional/isotope.pkgd.min.js"></script>
+    <script src="~/assets/js/jquery.appear.min.js"></script>
+    <script src="~/assets/js/jquery.plugin.min.js"></script>
+    <script src="~/assets/js/jquery.countdown.min.js"></script>
+    <!-- Main JS File -->
+    <script src="~/assets/js/main.js"></script>
+
+    <script src="~/js/moment.js"></script>
+    <script src="~/js/moment-timezone.js"></script>
+    <script src="~/js/countries-and-timezones.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+ 
+    <script type="text/javascript">
+
+        const USE_HEROKU_EVENTS = "@useHerokuEvents";
+        const ATLIS_EVENT_FABRIC_URL = "@atlisEventFabricUrl";
+
+        (function ($) {
+            $(document).ready(function () {
+                $("#divMask").hide();
+                $(window).on('beforeunload', function () {
+                    $("#divMask").show();
+                });
+
+                if (location.pathname && (location.pathname.toLowerCase() == '/appsettings')) {
+                    $("#countries").hide();
+                    $("#timezones").hide();
+                    $("#countries").closest('div.header-left').hide();
+                }
+                else {
+                    $("#countries").show();
+                    $("#timezones").show();
+                    $("#countries").closest('div.header-left').show();
+
+                    let tzCountries, tzList;
+                    tzCountries = ct.getAllCountries();
+                    if (tzCountries != null && Object.values(tzCountries).length > 0) {
+                        tzCountries = Object.values(tzCountries).sortByObjectProperty('name', false);
+                    }
+                    $.each(tzCountries, function (index, item) {
+                        $("#countries  ul").append("<li data-id='" + item.id + "'><a href='javascript:void(0)'><i class='flag-" + item.id.toLowerCase() + " flag'></i>" + item.name + "</a></li>");
+                    });
+
+                    if ($("#userLocale").val() != '') {
+                        tzList = ct.getTimezonesForCountry($("#userLocale").val());
+                        $.each(tzList, function (index, item) {
+                            $("#timezones ul").append("<li><a href='javascript:void(0)'>" + item.name + "</a></li>");
+                        });
+                        $("#timezones").closest("div.header-dropdown").find("a[id='selectedTZ']").html($("#userTimezone").val());
+                    }
+                    else {
+                        tzList = ct.getCountriesForTimezone(moment.tz.guess(true));
+                        $.each(tzList[0].timezones, function (index, item) {
+                            $("#timezones  ul").append("<li><a href='javascript:void(0)'>" + item + "</a></li>");
+                        });
+                        $("#timezones").closest("div.header-dropdown").find("a[id='selectedTZ']").html($("#timezones  ul li:first").text());
+                    }
+
+                    if (tzList && tzList.length > 0 && tzCountries && tzCountries.length > 0) {
+						var country;
+						if(tzList[0].hasOwnProperty('countries'))
+							country= tzCountries.find((c) => { return c.id.toLowerCase() == tzList[0].countries[0].toLowerCase(); })
+						else
+							country = tzCountries.find((c) => { return c.id.toLowerCase() == tzList[0].id.toLowerCase(); })
+                        if (country) {
+                            $("#countries").closest("div.header-dropdown").prepend("<a href='javascript:void(0)'><i class='flag-" + country.id.toLowerCase() + " flag'></i>" + country.name + "</a>");
+                        }
+                    }
+
+                    $("#countries ul li").on('click', function (e) {
+                        var selectedCountry = $(this).clone();
+                        $("#countries").closest("div.header-dropdown").find("a:lt(1)").remove();
+                        $("#countries").closest("div.header-dropdown").prepend(selectedCountry.html());
+
+                        $('#timezones ul')
+                            .find('li')
+                            .remove()
+                            .end();
+                        tzList = ct.getTimezonesForCountry(selectedCountry.attr("data-id"));
+                        $.each(tzList, function (index, item) {
+                            $("#timezones  ul").append("<li><a href='javascript:void(0)'>" + item.name + "</a></li>");
+                        });
+
+                        $("#timezones").closest("div.header-dropdown").find("a[id='selectedTZ']").html(tzList[0].name);
+                        initEventMonitorDataTable(tzList[0].name); //site.js method
+                    });
+
+                    $('#timezones ul').on('click', 'li', function () {
+                        $("#timezones").closest("div.header-dropdown").find("a[id='selectedTZ']").html($(this).html());
+                        initEventMonitorDataTable($(this).text()); //site.js method
+                    });
+                }
+
+                //var timeout = setTimeout(function () {
+                //   if (!hasPGRequestSent && !hasCDPRequestSent) {
+                //        //location.reload();
+                //    }
+                //}, 30000);
+            });
+        })(jQuery);
+
+        if (SalesforceInteractions) {
+            SalesforceInteractions.setLoggingLevel('error');
+
+            const { OnEventSend, OnException } = SalesforceInteractions.CustomEvents;
+            document.addEventListener(OnException, (error, context) => {
+                console.log('On Event Exception: ', error?.detail);
+                console.log('On Event Exception: ', context);
+                jQuery("#divMask").hide();
+            });
+            document.addEventListener(OnEventSend, (event) => {
+                if (!event?.detail?.actionEvent?.source?.sourceLocale) {
+                    event.detail.actionEvent.source.sourceLocale = 'en_US';
+                }
+
+                if (event?.detail?.actionEvent?.interaction) {
+                    console.log('On Event Send: ', event.detail)
+                }
+                else {
+                    console.log('On Event Send: ', event.detail)
+                    return null;
+                }
+            });
+
+            var cookieDomain = (location.href.indexOf('://localhost') == -1 ? '.ai-heroku-dc.herokuapp.com' : '.ai-heroku-dc-app.localhost');
+            console.log(cookieDomain);
+
+            SalesforceInteractions.init({
+                cookieDomain: cookieDomain,
+                consents: [{
+                    provider: 'Test Provider',
+                    purpose: 'Tracking',
+                    status: SalesforceInteractions.ConsentStatus.OptIn
+                }]
+            }).then(() => {
+                let href = window.location.href
+                let contactId = jQuery('#contactId') ? jQuery('#contactId').val() : '';
+                let customEvent = 'herokuClickEvents';
+
+                // monitor the url for changes and reinitialize when detected
+                setInterval(() => {
+                    if (href !== window.location.href) {
+                        href = window.location.href
+                        SalesforceInteractions.reinit()
+                    }
+                }, 200)
+
+                const global = {
+                    listeners: [
+                        SalesforceInteractions.listener("click", "#resetall", (event) => {
+                            //SalesforceInteractions.resetAnonymousId();
+                            SalesforceInteractions.sendEvent({
+                                interaction: {
+                                    name: 'reset',
+                                    eventType: customEvent,
+                                    contactId: contactId,
+                                    visitCount: 0
+                                    //attributes: {
+                                    //    EventType: 'reset',
+                                    //    ContactId: ''
+                                    //}
+                                }
+                            });
+                        }),
+                        SalesforceInteractions.listener("click", "#viewcart,.view-cart", () => {
+                            //SalesforceInteractions.resetAnonymousId();
+                            //document.getElementById('hfEvent').value = '';
+                            SalesforceInteractions.sendEvent({
+                                interaction: {
+                                    name: 'view cart',
+                                    eventType: customEvent,
+                                    contactId: contactId,
+                                    visitCount: 1
+                                    //attributes: {
+                                    //    EventType: 'buy',
+                                    //    ContactId: ''
+                                    //}
+                                }
+                            });
+                        }),
+                        SalesforceInteractions.listener("click", "#checkout", (event) => {
+                                // If USE_HEROKU_EVENTS is true, continue with Salesforce Interactions logic
+
+                            event.preventDefault();
+
+                            SalesforceInteractions.sendEvent({
+                                interaction:
+                                {
+                                    name: 'order',
+                                    eventType: customEvent,
+                                    contactId: contactId,
+                                    visitCount: 1
+                                }
+                            });
+
+                            // Function to generate a UUID with fallback
+                            function generateUUID() {
+                                if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+                                    return crypto.randomUUID();
+                                }
+
+                                // Fallback method
+                                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                                    return v.toString(16);
+                                });
+                            }
+
+                            if (USE_HEROKU_EVENTS === "0") {
+                                const eventId = generateUUID();
+                                fetch(ATLIS_EVENT_FABRIC_URL, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                        body: JSON.stringify({ "event": "checkout", "eventId": eventId, "clientInstanceId": sessionStorage.getItem('clientinstanceid') })
+
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('POST request to ATLIS_EVENT_FABRIC_URL succeeded:', data);
+                                        sessionStorage.setItem('atlis.checkoutEventId', eventId);
+                                        // Navigate only after request completes
+                                        window.location.href = "/order-confirmation";
+                                    })
+                                    .catch(error => {
+                                        console.error('POST request to ATLIS_EVENT_FABRIC_URL failed:', error);
+                                        // Optional: Still navigate or handle error
+                                        window.location.href = "/order-confirmation";
+                                    });
+                            }
+                        })
+                    ]
+                };
+
+                const pageTypeDefault = {
+                    name: 'default',
+                    interaction: {
+                        name: "Default Page",
+                    }
+                };
+
+                const sitemapConfig = {
+                    global,
+                    pageTypeDefault,
+                    pageTypes: [{
+                        name: 'product',
+                        isMatch: () => { return (window.location.pathname.toLowerCase().indexOf('/product') != -1 || jQuery('.cart-opened').is(':visible')) },
+                        interaction: {
+                            name: "Product Page",
+                        },
+                        listeners: [
+                            SalesforceInteractions.listener("click", "#addtocart", () => {
+                                //SalesforceInteractions.resetAnonymousId();
+                                //document.getElementById('hfEvent').value = '';
+                                SalesforceInteractions.sendEvent({
+                                    interaction: 
+                                    {
+                                        name: 'add to cart',
+                                        eventType: customEvent,
+                                        contactId: contactId,
+                                        visitCount: 1
+                                        //attributes: {
+                                        //    EventType: 'add',
+                                        //    ContactId: ''
+                                        //}
+                                    }
+                                });
+                            })
+                        ]
+                    }, {
+                        name: 'home',
+                        isMatch: () => { return (window.location.pathname == "/" || window.location.pathname.toLowerCase().indexOf('/index') != -1) },
+                        interaction: {
+                            name: "Home Page",
+                        },
+                        listeners: [
+                            SalesforceInteractions.listener("click", "#viewproduct,#viewitem,a.btn-add-cart", () => {
+                                //SalesforceInteractions.resetAnonymousId();
+                                //document.getElementById('hfEvent').value = '';
+                                SalesforceInteractions.sendEvent({
+                                    interaction: {
+                                        name: 'browse',
+                                        eventType: customEvent,
+                                        contactId: contactId,
+                                        visitCount: 1
+                                        //attributes: {
+                                        //    EventType: 'buy',
+                                        //    ContactId: ''
+                                        //}
+                                    }
+                                });
+                            })
+                        ]
+                    }]
+                }
+                SalesforceInteractions.initSitemap(sitemapConfig)
+            });
+        }
+    </script>
+
+    <script type="module">
+        // Create and insert the div at the top of the body
+        (function () {
+            var chatWidgetRoot = document.createElement('div');
+            chatWidgetRoot.id = 'chatWidgetRoot';
+            document.body.insertBefore(chatWidgetRoot, document.body.firstChild);
+        })();
+
+        window.chatWidgetSettings = {
+            id: "b9983c2c-ab2c-4ad4-bca4-477163c0db08",
+            popupIcon: "https://admin.atlis.ai/logo-small.png",
+            windowIcon: 'https://admin.atlis.ai/logo-small.png',
+            windowHeading: "Stratis AI",
+            welcomeMessage: "💡 Need some help?",
+            autoOpen: false,
+            initialModel: 'chatgpt_proxyllm',
+            initialChatSelection: 'ACME',
+            buttonCornerSpacingBottom: '3vw',
+            buttonCornerSpacingRight: '1vw',
+            chatMessageFontSize: '16px',
+            darkMode: true,
+            adhocKey: 'acme',
+        };
+
+        (function () {
+            var script = document.createElement('script');
+            script.src = 'https://widget.atlis.ai/bundle.js';
+            script.type = 'module';
+            document.body.appendChild(script);
+        })();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

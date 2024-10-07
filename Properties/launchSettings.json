@@ -1,0 +1,34 @@
+﻿{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:59294",
+      "sslPort": 44389
+    }
+  },
+  "profiles": {
+    "DataCloudDemo": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7270;http://localhost:5270",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_URL": "postgres://u64rq4c6qt9pmk:pfb5fe1ab9ba677e3db9d405dda897afee34e8d3f79a545b3f188e7094c4c4366@ec2-44-218-169-28.compute-1.amazonaws.com:5432/d9hbh74o56nom2",
+        "USE_HEROKU_EVENTS": "0",
+        "ATLIS_EVENT_FABRIC_URL": "https://atlis-event-fabric-staging-3911e8762a08.herokuapp.com/heroku-events/5448f1e7-92e7-4bc3-9c8a-226ed7d3f8d9"
+      }
+    },
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DATABASE_URL": "postgres://u64rq4c6qt9pmk:pfb5fe1ab9ba677e3db9d405dda897afee34e8d3f79a545b3f188e7094c4c4366@ec2-44-218-169-28.compute-1.amazonaws.com:5432/d9hbh74o56nom2",
+        "USE_HEROKU_EVENTS": "0",
+        "ATLIS_EVENT_FABRIC_URL": "https://atlis-event-fabric-staging-3911e8762a08.herokuapp.com/heroku-events/5448f1e7-92e7-4bc3-9c8a-226ed7d3f8d9"
+      }
+    }
+  }
+}

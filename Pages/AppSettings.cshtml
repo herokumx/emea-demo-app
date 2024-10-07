@@ -1,0 +1,180 @@
+﻿@page
+@model DataCloudDemo.Pages.AppSettingsModel
+@{
+    ViewData["Title"] = "App settings";
+}
+
+<div class="container">
+	<div class="row">
+		<div class="col-6" style="margin-top:2%;">
+			<form method="post">
+				<div class="form-group form-group-sm">
+					<input type="hidden" name="handler" value="FormSubmit" />
+					<div class="slds-p-around_medium form-group">
+						<label class="form-element__label" for="settings.ContactId">
+							<span style="color:red;">*</span><span>Salesforce ContactId</span>
+						</label>
+						<input asp-for="settings!.ContactId" class="form-control" />
+						<span class="field-validation-valid" data-valmsg-for="settings.ContactId" data-valmsg-replace="true"></span>
+					</div>
+					<div class="slds-p-around_medium slds-p-top--none form-group">
+						<label class="form-element__label" for="settings.Locale">
+							<span style="color:red;">*</span><span>User Locale</span>
+						</label>
+						<select id="settings_Locale" name="settings.Locale" class="form-control" data-val="true" data-val-required="The User Locale field is required.">
+						</select>
+						<span class="field-validation-valid" data-valmsg-for="settings.Locale" data-valmsg-replace="true"></span>
+					</div>
+					<div class="slds-p-around_medium slds-p-top--none form-group">
+						<label class="form-element__label" for="settings.Timezone">
+							<span style="color:red;">*</span><span>User Timezone</span>
+						</label>
+						<select id="settings_Timezone" name="settings.Timezone" class="form-control" data-val="true" data-val-required="The User Timezone field is required.">
+						</select>
+						<span class="field-validation-valid" data-valmsg-for="settings.Timezone" data-valmsg-replace="true"></span>
+					</div>
+                    
+					<div class="slds-p-around_medium slds-p-top--none form-group">
+						<a href="/index" class="btn btn-primary" style="text-decoration: none !important; border-color: #857b76ab !important; background-color: #857b76ab !important; ">Cancel</a>&nbsp;<input type="submit" value="Submit" class="btn btn-primary" />
+					</div>
+				</div>
+			</form>
+			<input type="hidden" id="ErrorMessage" value="@Model.ErrorMessage" />
+			<input type="hidden" id="userLocale" value="@Model.settings!.Locale" />
+			<input type="hidden" id="userTimezone" value="@Model.settings!.Timezone" />
+		</div>
+	</div>
+</div>
+
+@section Scripts{
+    <script src="~/js/sweetalert2.all.min.js"></script>
+    <script type="text/javascript">
+        setFormDefaultValidator();
+
+        $(function () {
+            let tzCountries, tzList, msg = $('#ErrorMessage').val() || '';
+            $("#topmenus > ul > li").slice(-3).toggle();
+
+            if (msg.length > 0) {
+                swal.fire({
+                    title: (msg.indexOf('successfully') > 0 ? 'Info' : 'Error'),
+                    //icon: (msg.indexOf('successfully') > 0 ? 'success' : 'error'),
+                    text: msg,
+                    customClass: {
+                        confirmButton: 'btn custombutton'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Do you want to redirect to home page?',
+                            customClass: {
+                                confirmButton: 'btn custombutton',
+                                cancelButton: 'btn cancelbtn'
+                            },
+                            showCancelButton: true,
+                            confirmButtonText: 'Yes',
+                            cancelButtonText: 'No',
+                            buttonsStyling: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = './index';
+                            }
+                        })
+                    }
+                });
+            }
+
+            tzCountries = ct.getAllCountries();
+            if (tzCountries != null && Object.values(tzCountries).length > 0) {
+                tzCountries=Object.values(tzCountries).sortByObjectProperty('name', false)
+            }
+            $.each(tzCountries, function (index, item) {
+                $("#settings_Locale").append("<option value='" + item.id + "'>" + item.name + "</option>");
+            });
+
+            if ($("#userLocale").val() != '') {
+                tzList = ct.getTimezonesForCountry($("#userLocale").val());
+                $.each(tzList, function (index, item) {
+                    $("#settings_Timezone").append("<option value='" + item.name + "'>" + item.name + "</option>");
+                });
+                $("#settings_Locale").find("option[value='" + $("#userLocale").val() + "']").prop("selected", true);
+                $("#settings_Timezone").find("option[value='" + $("#userTimezone").val() + "']").prop("selected", true);
+            }
+            else {
+                tzList = ct.getCountriesForTimezone(moment.tz.guess(true));
+                $.each(tzList[0].timezones, function (index, item) {
+                    $("#settings_Timezone").append("<option value='" + item + "'>" + item + "</option>");
+                });
+                $("#settings_Locale").find("option[value='" + tzList[0].id + "']").prop("selected", true);
+            }
+
+            $("#settings_Locale").on('change', function (e) {
+                tzList = ct.getTimezonesForCountry($(this).val());
+                $('#settings_Timezone')
+                    .find('option')
+                    .remove()
+                    .end();
+                $.each(tzList, function (index, item) {
+                    $("#settings_Timezone").append("<option value='" + item.name + "'>" + item.name + "</option>");
+                });
+            })
+        });
+
+        function setFormDefaultValidator(config) {
+            if (typeof $.validator === "undefined") {
+                throw new Error("jQuery validate library required");
+            }
+
+            var self = this;
+            config = config || {
+                focusInvalid: false,
+                //onsubmit: false,
+                errorClass: "field-validation-error",
+                errorElement: "span",
+                highlight: function (element) {
+                    $(element).closest('.form-group').addClass('has-error');
+                    $("span[data-valmsg-for='" + element.name + "']").addClass('help-block');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error');
+                    $("span[data-valmsg-for='" + element.name + "']").removeClass('help-block');
+                },
+                success: function (element) {
+                    $(element).closest('.form-group').addClass('has-success');
+                    $("span[data-valmsg-for='" + element.name + "']").addClass('help-block');
+                },
+                errorPlacement: function (error, element) {
+                    if (element.hasClass('multiselect')) {
+                        // custom placement for hidden select
+                        error.insertAfter(element.next('.btn-group'))
+                    } else {
+                        // message placement for everything else
+                        error.insertAfter(element);
+                    }
+                },
+                ignore: "",
+                onfocusin: function (element, event) {
+                    $(element).closest('.form-group').removeClass('has-error');
+                    $("span[data-valmsg-for='" + element.name + "']").removeClass('help-block').html('');
+                }
+            };
+
+            if (!self.setFromValidator) {
+                $.validator.setDefaults(config);
+                self.setFromValidator = true;
+
+                $('form:visible select,form:visible checkbox,form:visible radio').on('keyup change', function () {
+                    var element = $(this)[0];
+                    if (element.readOnly || element.disabled || $(element).hasClass("multiselect")
+                        || element.getAttribute("data-val") === null) {
+                        return false;
+                    }
+                });
+
+                $('.input-validation-error').parents('.form-group').addClass('has-error');
+                $('.field-validation-error').addClass('text-danger');
+            }
+        }
+    </script>
+}
